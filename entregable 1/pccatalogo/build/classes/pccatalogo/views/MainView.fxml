@@ -1,14 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pccatalogo.controllers.MainController">
-    <children>
-        <Button layoutX="126" layoutY="90" text="Click Me!" onAction="#handleButtonAction" fx:id="button" />
-        <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
-    </children>
-</AnchorPane>
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="768.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pccatalogo.controllers.MainViewController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="ALWAYS" minWidth="100.0" prefWidth="300.0" />
+    <ColumnConstraints hgrow="ALWAYS" minWidth="166.0" prefWidth="500.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="20.0" minHeight="20.0" prefHeight="20.0" vgrow="SOMETIMES" />
+    <RowConstraints prefHeight="290.0" vgrow="ALWAYS" />
+    <RowConstraints prefHeight="290.0" vgrow="ALWAYS" />
+  </rowConstraints>
+   <children>
+      <VBox style="-fx-background-color: #ffaaaa;" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2" />
+      <HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: blue;" GridPane.columnSpan="2">
+         <children>
+            <MenuBar HBox.hgrow="ALWAYS">
+              <menus>
+                <Menu mnemonicParsing="false" text="Archivo">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#nuevoPresupuesto" text="Nuevo presupuesto" />
+                        <MenuItem mnemonicParsing="false" onAction="#nuevoPresupuestoPredeterminado" text="Nuevo presupuesto a partir de predeterminado" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#abrirPresupuesto" text="Abrir presupuesto" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#guardarPresupuesto" text="Guardar presupuesto" />
+                        <MenuItem mnemonicParsing="false" onAction="#guardarPresupuestoComo" text="Guardar presupuesto como..." />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#cerrarPresupuestoActual" text="Cerrar presupuesto actual..." />
+                        <MenuItem mnemonicParsing="false" onAction="#eliminarPresupuestoActual" text="Eliminar presupuesto actual" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Ayuda">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#acercaDe" text="Acerca de..." />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </children>
+      </HBox>
+      <HBox prefHeight="126.0" prefWidth="300.0" style="-fx-background-color: #AAFFAA;" GridPane.rowIndex="2" />
+      <GridPane GridPane.rowIndex="1">
+        <columnConstraints>
+          <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="40.0" />
+            <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0" />
+            <ColumnConstraints maxWidth="0.0" minWidth="0.0" prefWidth="0.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="24.0" minHeight="16.0" prefHeight="24.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="204.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Todo" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+               <GridPane.margin>
+                  <Insets left="6.0" />
+               </GridPane.margin></Label>
+            <Label fx:id="categoriaLabel" text="&gt; Categoría" GridPane.columnIndex="1" />
+            <ListView prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
+   </children>
+</GridPane>

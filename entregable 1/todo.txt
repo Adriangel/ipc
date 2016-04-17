@@ -1,0 +1,18 @@
+Crear Modelo de catálogo:
+	Constantes
+		RutaPresupuestos
+		RutaPredeterminados
+	
+	Propiedades
+		presupuestoActual
+	
+	Metodos
+		nuevoPc
+		
+		abrirPc
+		abrirPredeterminado
+		
+		guardarPc
+		guardarPcComo
+		
+		borrarPc
