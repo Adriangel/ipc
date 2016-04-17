@@ -7,7 +7,7 @@ package pccatalogo.models;
 
 /**
  *
- * @author Adrian
+ * @author Adrian, Ángel
  */
 public class Product {
     public enum Category {
