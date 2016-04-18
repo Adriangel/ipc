@@ -23,6 +23,8 @@ public class Pccatalogo extends Application {
         
         Scene scene = new Scene(root);
         
+        stage.setMinWidth(600);
+        stage.setMinHeight(600);
         stage.setTitle("PCForge 2016");
         stage.setScene(scene);
         stage.show();
