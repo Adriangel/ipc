@@ -28,6 +28,8 @@ public class Pccatalogo extends Application {
         stage.setTitle("PCForge 2016");
         stage.setScene(scene);
         stage.show();
+        
+        
     }
 
     /**

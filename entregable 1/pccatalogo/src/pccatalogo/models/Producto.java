@@ -9,13 +9,13 @@ package pccatalogo.models;
  *
  * @author Adrian, Ángel
  */
-public class Product {
+public class Producto {
     public enum Category {
         SPEAKER, HDD, HDD_SSD, POWER_SUPPLY, DVD_WRITER, RAM, SCREEN,
         MULTIREADER, MOTHERBOARD, CPU, MOUSE, GPU,
         KEYBOARD, CASE, FAN
     }
-public Product(String description, double price, int stock, Category category) {
+public Producto(String description, double price, int stock, Category category) {
     this.description = description;
     this.price = price;
     this.stock = stock;
