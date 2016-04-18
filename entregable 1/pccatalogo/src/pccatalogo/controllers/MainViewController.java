@@ -11,6 +11,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SplitMenuButton;
 import pccatalogo.models.Presupuesto;
 
 /**
@@ -26,7 +28,15 @@ public class MainViewController implements Initializable {
     public Presupuesto actual;
     
     @FXML
-    private Label categoriaLabel;
+    private SplitMenuButton selectorCategorias;
+    @FXML
+    private Label productoCategoria;
+    @FXML
+    private Label productoDescripcion;
+    @FXML
+    private Label productoPrecio;
+    @FXML
+    private Label productoStock;
 
     /**
      * Initializes the controller class.
@@ -65,6 +75,16 @@ public class MainViewController implements Initializable {
 
     @FXML
     private void eliminarPresupuestoActual(ActionEvent event) {
+    }
+
+    @FXML
+    private void imprimir(ActionEvent event) {
+    }
+
+    @FXML
+    private void seleccionarCategoria(ActionEvent event) {
+        MenuItem firer = (MenuItem) event.getSource();
+        selectorCategorias.setText("Categoria > " + firer.getText());
     }
     
 }
