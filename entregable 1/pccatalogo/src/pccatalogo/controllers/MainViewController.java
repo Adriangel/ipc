@@ -21,6 +21,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import pccatalogo.models.Presupuesto;
@@ -62,6 +63,10 @@ public class MainViewController implements Initializable {
     private TableColumn<es.upv.inf.Product, Double> precioColumn;
     @FXML
     private TableColumn<es.upv.inf.Product, Integer> stockColumn;
+    @FXML
+    private Label productoSeleccionadoLabel;
+    @FXML
+    private ImageView catImage;
 
     /**
      * Initializes the controller class.
@@ -119,6 +124,7 @@ public class MainViewController implements Initializable {
         nombreColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         precioColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         stockColumn.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        stockColumn.setStyle( "-fx-alignment: CENTER-RIGHT;");
 
     }
 
@@ -132,11 +138,10 @@ public class MainViewController implements Initializable {
         Product p = tablaProductos.getSelectionModel().getSelectedItem();
         productoCategoria.setText(categoryToString(p.getCategory()));
         productoDescripcion.setText(p.getDescription());
-        productoDescripcion.setVisible(true);
         productoPrecio.setText("Precio: " + String.valueOf(p.getPrice()) + " eur.");
-        productoPrecio.setVisible(true);
         productoStock.setText(String.valueOf(p.getStock()) + " uds. disponibles");
-        productoStock.setVisible(true);
+        productoSeleccionadoLabel.setVisible(false);
+        productoSeleccionado.setVisible(true);
     }
     
     private static String categoryToString(Product.Category c) {
