@@ -9,7 +9,7 @@
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
     <jar href="lib\DatabasePCStore.jar" size="178044" download="eager" />
-    <jar href="pccatalogo.jar" size="11666" download="eager" />
+    <jar href="pccatalogo.jar" size="11672" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="pccatalogo" >
     <param name="requiredFXVersion" value="8.0+"/>
