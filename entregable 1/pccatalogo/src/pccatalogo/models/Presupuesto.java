@@ -6,6 +6,7 @@
 package pccatalogo.models;
 
 import es.upv.inf.Product;
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +21,21 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 import pccatalogo.controllers.MainViewController;
+import pccatalogo.data.Data;
 
 /**
  *
  * @author angel
  */
+@XmlRootElement(name = "Presupuesto")
+@XmlAccessorType(XmlAccessType.PROPERTY)
 public class Presupuesto {
+    protected boolean modified;
+    protected boolean pred = false;
     private String name;
     private Componente mobo;
     private Componente cpu;
@@ -51,25 +60,33 @@ public class Presupuesto {
                 if (mobo == null) {
                     mobo = c;
                     mobo.setQuantity(1);
+                    modified = true;
                 }
                 break;
             case CPU:
                 if (cpu == null) {
                     cpu = c;
                     cpu.setQuantity(1);
+                    modified = true;
                 }
                 break;
             case CASE:
                 if (torre == null) {
                     torre = c;
                     torre.setQuantity(1);
+                    modified = true;
                 }
                 break;
             case RAM:
-                if (c.equals(ram))
+                if (c.equals(ram)) {
+                    modified = true;
                     ram.setQuantity(ram.getQuantity() + c.getQuantity());
-                else if (ram == null)
+                }
+                else if (ram == null){
                     ram = c;
+                    modified = true;
+                }
+                
                 break;
             case HDD:
             case HDD_SSD:
@@ -77,22 +94,31 @@ public class Presupuesto {
                     if (hdd.get(aux).equals(c)){
                         hdd.get(aux).setQuantity(hdd.get(aux).getQuantity() + c.getQuantity());
                         added = true;
+                        modified = true;
                         break;
                     }
                 }
-                if(!added)
+                if(!added){
+                    modified = true;
                     hdd.add(c);
+                }
+                    
                 break;
             case GPU:
-                if (c.equals(gpu))
+                if (c.equals(gpu)){
                     gpu.setQuantity(gpu.getQuantity() + c.getQuantity());
-                else if (gpu == null)
+                    modified = true;
+                }
+                else if (gpu == null){
                     gpu = c;
+                    modified = true;
+                }
                 break;
             case POWER_SUPPLY:
                 if (psu == null){
                     psu = c;
                     psu.setQuantity(1);
+                    modified = true;
                 }
                 break;
             default:
@@ -100,11 +126,15 @@ public class Presupuesto {
                     if (optional.get(aux).equals(c)){
                         optional.get(aux).setQuantity(optional.get(aux).getQuantity() + c.getQuantity());
                         added = true;
+                        modified = true;
                         break;
                     }
                 }
-                if(!added)
+                if(!added){
                     optional.add(c);
+                    modified = true;
+                }
+                    
 	}
     }
     
@@ -205,12 +235,13 @@ public class Presupuesto {
         name = newName;
     }
     
-    public void guardar(){
-    
-    }
-    
     public void borrar(){
-    
+        try {
+            File f = new File(Data.class.getResource("presupuestosUsuario/" + name).toString());
+            if (f.exists())
+                f.delete();
+        }
+        catch(NullPointerException e){}
     }
     
     public Node getNode(){
@@ -309,7 +340,7 @@ public class Presupuesto {
     public List<Componente> getHdd(){return hdd;}
     public Componente getGpu(){return gpu;}
     public Componente getPsu(){return psu;}
-    public List<Componente> getOptionalComponents(){return optional;}
+    public List<Componente> getOptional(){return optional;}
     
     /**
      * @param p     Producto a buscar
@@ -363,5 +394,18 @@ public class Presupuesto {
                 return 0;
         }
         return r;
+    }
+    
+    public File getProductFile(){
+        String fileStr = "presupuestos";
+        if (pred) {
+            fileStr += "Predeterminados/";
+        }
+        else {
+            fileStr += "Usuario/";
+        }
+        fileStr += this.getName();
+        File f = new File(fileStr);
+        return f;
     }
 }

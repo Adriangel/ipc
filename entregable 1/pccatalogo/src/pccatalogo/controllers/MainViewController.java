@@ -13,11 +13,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -34,6 +36,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
 import pccatalogo.data.logos.Logos;
 import pccatalogo.models.Componente;
 import pccatalogo.models.Presupuesto;
@@ -124,7 +128,6 @@ public class MainViewController implements Initializable {
         tabPane.getTabs().add(t);
         t.setContent(p.getNode());
         actual = tabPane.getSelectionModel().getSelectedIndex();
-
     }
 
     @FXML
@@ -137,29 +140,59 @@ public class MainViewController implements Initializable {
 
     @FXML
     private void guardarPresupuesto(ActionEvent event) {
+        try {
+            JAXBContext context = JAXBContext
+                    .newInstance(Presupuesto.class);
+            Marshaller m = context.createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            // Marshalling and saving XML to the file.
+            m.marshal(presupuestos.get(actual), presupuestos.get(actual).getProductFile());
+        } catch (Exception e) {}
     }
 
     @FXML
     private void guardarPresupuestoComo(ActionEvent event) {
+        TextInputDialog dialog = new TextInputDialog(presupuestos.get(actual).getName());
+        dialog.setHeaderText(null);
+        dialog.setTitle("Elija un nombre nuevo");
+        dialog.setContentText("Los cambios se guardarán en un nuevo presupuesto con el siguiente nombre:");
+        Optional<String> result = dialog.showAndWait();
+        String res = "";
+        if (result.isPresent()){
+            res = result.get();
+        }
+        presupuestos.get(actual).setName(res);
+        guardarPresupuesto(new ActionEvent());
+        
     }
 
     @FXML
     private void cerrarPresupuestoActual(ActionEvent event) {
         
         // Ventana de alerta sobre cierre
-        
-        Alert alertaCierre = new Alert(AlertType.CONFIRMATION);
-        alertaCierre.setTitle("Confirmar cierre de presupuesto");
-        alertaCierre.setHeaderText("Va a cerrar el presupuesto actual");
-        alertaCierre.setContentText("¿Seguro que quiere continuar?");
-        Optional<ButtonType> resultado = alertaCierre.showAndWait();
-        if (resultado.isPresent() && resultado.get() == ButtonType.OK){
-            // Código para cerrar el presupuesto
-            
-            
-        } else {
-            alertaCierre.close();
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("Diálogo de confirmación");
+        alert.setHeaderText(null);
+        alert.setContentText("Desea guardar o descartar los cambios del presupuesto actual:");
+        ButtonType buttonGuardar = new ButtonType("Guardar");
+        ButtonType buttonDescartar = new ButtonType("Descartar");
+        ButtonType buttonTypeCancel = new ButtonType("Cancelar", ButtonData.CANCEL_CLOSE);
+        alert.getButtonTypes().setAll(buttonGuardar, buttonDescartar, buttonTypeCancel);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent()) {
+            if (result.get() == buttonGuardar){
+                tabPane.getTabs().remove(actual);
+                guardarPresupuesto(new ActionEvent());
+                actual = tabPane.getSelectionModel().getSelectedIndex();
+            }
+            else if (result.get() == buttonDescartar) {
+                tabPane.getTabs().remove(actual);
+                presupuestos.remove(actual);
+                actual = tabPane.getSelectionModel().getSelectedIndex();
+            }
         }
+        
     }
 
     @FXML
@@ -174,7 +207,9 @@ public class MainViewController implements Initializable {
         Optional<ButtonType> resultado = alertaCierre.showAndWait();
         if (resultado.isPresent() && resultado.get() == ButtonType.OK){
             // Código para eliminar el presupuesto
-            //actual-=1;
+            tabPane.getTabs().remove(actual);
+            presupuestos.get(actual).borrar();
+            actual = tabPane.getSelectionModel().getSelectedIndex();
             
         } else {
             alertaCierre.close(); // si pulsa cancelar
@@ -200,6 +235,16 @@ public class MainViewController implements Initializable {
 
     @FXML
     private void buscar(ActionEvent event) {
+        String str = buscarField.getText();
+        int i;
+        ObservableList<Product> items = tablaProductos.getItems();
+        ObservableList<Product> newItems = FXCollections.emptyObservableList();
+        for(i = 0; i<items.size(); i++) {
+            if (!items.get(i).getDescription().contains(str)) {
+                items.remove(i);
+                i -= 1;
+            }
+        }
     }
 
     @FXML
