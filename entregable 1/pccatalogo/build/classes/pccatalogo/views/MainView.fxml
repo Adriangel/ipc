@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.input.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.paint.*?>
 <?import java.lang.*?>
@@ -24,36 +25,43 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pccatalogo.controllers.MainViewController">
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pccatalogo.controllers.MainViewController">
    <children>
       <MenuBar>
         <menus>
-          <Menu mnemonicParsing="false" text="Archivo">
+          <Menu text="_Archivo">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#nuevoPresupuesto" text="Nuevo presupuesto" />
-                  <MenuItem mnemonicParsing="false" onAction="#nuevoPresupuestoPredeterminado" text="Nuevo presupuesto a partir de predeterminado" />
+                  <MenuItem onAction="#nuevoPresupuestoPredeterminado" text="Nuevo presupuesto a partir de _predeterminado">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" onAction="#abrirPresupuesto" text="Abrir presupuesto" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" onAction="#guardarPresupuesto" text="Guardar presupuesto" />
-                  <MenuItem mnemonicParsing="false" onAction="#guardarPresupuestoComo" text="Guardar presupuesto como..." />
+                  <MenuItem onAction="#guardarPresupuesto" text="_Guardar presupuesto" />
+                  <MenuItem onAction="#guardarPresupuestoComo" text="Guardar presupuesto c_omo..." />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" onAction="#cerrarPresupuestoActual" text="Cerrar presupuesto actual..." />
-                  <MenuItem mnemonicParsing="false" onAction="#eliminarPresupuestoActual" text="Eliminar presupuesto actual" />
+                  <MenuItem onAction="#cerrarPresupuestoActual" text="_Cerrar presupuesto actual..." />
+                  <MenuItem onAction="#eliminarPresupuestoActual" text="_Eliminar presupuesto actual" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" onAction="#imprimir" text="Imprimir" />
+                  <MenuItem onAction="#imprimir" text="Im_primir" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Ayuda">
+            <Menu text="_Editar">
+              <items>
+                <MenuItem onAction="#cambiarNombre" text="_Cambiar nombre" />
+              </items>
+            </Menu>
+          <Menu text="A_yuda">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#acercaDe" text="Acerca de..." />
+              <MenuItem onAction="#acercaDe" text="A_cerca de..." />
             </items>
           </Menu>
         </menus>
       </MenuBar>
       <SplitPane dividerPositions="0.33" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="160.0" prefWidth="200.0" style="-fx-background-color: #666;" VBox.vgrow="ALWAYS">
         <items>
-            <SplitPane dividerPositions="0.6" maxWidth="420.0" minWidth="220.0" orientation="VERTICAL" prefWidth="240.0">
+            <SplitPane dividerPositions="0.6" maxWidth="420.0" minWidth="280.0" orientation="VERTICAL" prefWidth="300.0">
               <items>
                   <VBox>
                      <children>
@@ -65,21 +73,22 @@
                         </HBox>
                         <SplitMenuButton fx:id="selectorCategorias" contentDisplay="BOTTOM" graphicTextGap="0.0" mnemonicParsing="false" popupSide="RIGHT" prefWidth="800.0" text="Categorias">
                           <items>
-                            <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Altavoces" />
-                            <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Discos duros" />
-                              <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Discos Duros SSD" />
-                              <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Fuentes de alimentación" />
-                              <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Grabadoras DVD" />
-                              <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Memoria RAM" />
-                              <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Monitores" />
-                              <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Multilectores" />
                               <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Placas base" />
                               <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Procesadores" />
-                              <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Ratones" />
+                              <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Memoria RAM" />
                               <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Tarjetas gráficas" />
-                              <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Teclados" />
+                            <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Discos duros" />
+                              <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Discos Duros SSD" />
                               <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Cajas" />
+                              <SeparatorMenuItem mnemonicParsing="false" />
+                              <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Teclados" />
+                              <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Ratones" />
+                              <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Monitores" />
+                            <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Altavoces" />
+                              <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Multilectores" />
+                              <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Grabadoras DVD" />
                               <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Ventiladores" />
+                              <MenuItem mnemonicParsing="false" onAction="#seleccionarCategoria" text="Fuentes de alimentación" />
                           </items>
                         </SplitMenuButton>
                         <TableView fx:id="tablaProductos" onMouseClicked="#tableClick" VBox.vgrow="ALWAYS">
@@ -94,15 +103,15 @@
                         </TableView>
                      </children>
                   </VBox>
-                  <StackPane maxHeight="320.0" minHeight="240.0" prefHeight="300.0">
+                  <StackPane maxHeight="320.0" minHeight="270.0" prefHeight="300.0">
                      <children>
-                        <Label fx:id="productoSeleccionadoLabel" text="Ningún producto seleccionado" visible="false" />
-                        <VBox fx:id="productoSeleccionado" maxHeight="-Infinity" minHeight="240.0" prefHeight="320.0" spacing="10.0">
+                        <Label fx:id="productoSeleccionadoLabel" text="Ningún producto seleccionado" />
+                        <VBox fx:id="productoSeleccionado" maxHeight="-Infinity" minHeight="240.0" prefHeight="320.0" spacing="10.0" visible="false">
                            <children>
-                              <HBox alignment="BOTTOM_LEFT" spacing="10.0" VBox.vgrow="NEVER">
+                              <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="NEVER">
                                  <children>
-                                    <ImageView fx:id="catImage" fitHeight="64.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER" />
-                                    <Label fx:id="productoCategoria" text="categoria" textFill="#000f83">
+                                    <ImageView fx:id="catImage" fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER" />
+                                    <Label fx:id="productoCategoria" text="categoria" textFill="#000f83" textOverrun="WORD_ELLIPSIS" wrapText="true">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
@@ -116,6 +125,13 @@
                               </Label>
                               <Label fx:id="productoPrecio" text="precio" />
                               <Label fx:id="productoStock" text="stock" />
+                              <HBox fx:id="hboxProductoSeleccionado" alignment="CENTER_RIGHT" prefHeight="20.0" spacing="5.0" VBox.vgrow="NEVER">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#anadirProductos" text="Añadir" />
+                                    <TextField fx:id="anadirProductosQ" maxWidth="-Infinity" minWidth="40.0" prefWidth="40.0" text="1" />
+                                    <Label text="producto/s" />
+                                 </children>
+                              </HBox>
                            </children>
                            <padding>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -125,39 +141,7 @@
                   </StackPane>
               </items>
             </SplitPane>
-            <GridPane alignment="TOP_CENTER">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <VBox fx:id="presupuestoVbox" alignment="TOP_CENTER" fillWidth="false" maxWidth="500.0" prefHeight="500.0" style="-fx-background-color: #EEE; -fx-background-radius: 7;" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.valignment="TOP">
-                     <children>
-                        <HBox spacing="20.0">
-                           <children>
-                              <Label text="Presupuesto Nuevo">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Label>
-                              <Button mnemonicParsing="false" text="Editar nombre" />
-                           </children>
-                           <padding>
-                              <Insets bottom="10.0" left="20.0" top="10.0" />
-                           </padding>
-                        </HBox>
-                     </children>
-                     <padding>
-                        <Insets bottom="20.0" left="24.0" right="24.0" top="28.0" />
-                     </padding>
-                     <GridPane.margin>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                     </GridPane.margin>
-                  </VBox>
-               </children>
-            </GridPane>
+            <TabPane fx:id="tabPane" onMouseClicked="#cambiarTab" />
         </items>
          <VBox.margin>
             <Insets />
