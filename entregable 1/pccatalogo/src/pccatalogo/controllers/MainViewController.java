@@ -112,7 +112,7 @@ public class MainViewController implements Initializable {
         Alert alertaAcercaDe = new Alert(AlertType.INFORMATION);
         alertaAcercaDe.setTitle("Acerca de...");
         alertaAcercaDe.setHeaderText("Acerca de PC Forge 2016");
-        alertaAcercaDe.setContentText("Programa creado por:\n- Angel Garcia\n- Adrian Sospedra\n Grupo 2G1\n\n 2016");
+        alertaAcercaDe.setContentText("Programa creado por:\n- Angel Garcia Camara\n- Adrian Sospedra Martinez\n Grupo 2G1\n\n 2016");
         alertaAcercaDe.showAndWait();
     }
 
@@ -140,15 +140,26 @@ public class MainViewController implements Initializable {
 
     @FXML
     private void guardarPresupuesto(ActionEvent event) {
-        try {
-            JAXBContext context = JAXBContext
-                    .newInstance(Presupuesto.class);
-            Marshaller m = context.createMarshaller();
-            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        if(presupuestos.get(actual).faltanImprescindibles()) {
+            Alert alertaCierre = new Alert(AlertType.CONFIRMATION);
+            alertaCierre.setTitle("Faltan componentes imprescindibles");
+            alertaCierre.setHeaderText("Faltan componentes imprescindibles en el presupuesto");
+            alertaCierre.setContentText("¿Seguro que quiere continuar y guardar?");
+            Optional<ButtonType> resultado = alertaCierre.showAndWait();
+            if (resultado.isPresent() && resultado.get() == ButtonType.OK){
+                try {
+                    /*JAXBContext context = JAXBContext
+                            .newInstance(Presupuesto.class);
+                    Marshaller m = context.createMarshaller();
+                    m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-            // Marshalling and saving XML to the file.
-            m.marshal(presupuestos.get(actual), presupuestos.get(actual).getProductFile());
-        } catch (Exception e) {}
+                    // Marshalling and saving XML to the file.
+                    m.marshal(presupuestos.get(actual), presupuestos.get(actual).getFile());*/
+                } catch (Exception e) { System.out.println(e); }
+            } else {
+                alertaCierre.close();
+            }
+        }
     }
 
     @FXML
@@ -258,7 +269,6 @@ public class MainViewController implements Initializable {
         catImage.setImage(new Image(Logos.class.getResource(catStr + ".png").toString()));
         productoSeleccionadoLabel.setVisible(false);
         productoSeleccionado.setVisible(true);
-        hboxProductoSeleccionado.setDisable(!presupuestos.get(actual).addable(new Componente(p, 1)));
     }
     
     public static String categoryToString(Product.Category c) {
@@ -377,7 +387,6 @@ public class MainViewController implements Initializable {
         );
         presupuestos.get(actual).addComponente(c);
         this.actualizarActual();
-        hboxProductoSeleccionado.setDisable(!presupuestos.get(actual).addable(c));
     }
 
     @FXML
@@ -403,5 +412,15 @@ public class MainViewController implements Initializable {
     @FXML
     private void cambiarTab(MouseEvent event) {
         actual = tabPane.getSelectionModel().getSelectedIndex();
+    }
+
+    @FXML
+    private void quitarProductos(ActionEvent event) {
+        Componente c = new Componente(
+            tablaProductos.getSelectionModel().getSelectedItem(),
+            Integer.valueOf(anadirProductosQ.getText())
+        );
+        presupuestos.get(actual).delComponente(c);
+        this.actualizarActual();
     }
 }

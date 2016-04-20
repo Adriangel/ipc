@@ -106,7 +106,7 @@
                   <StackPane maxHeight="320.0" minHeight="270.0" prefHeight="300.0">
                      <children>
                         <Label fx:id="productoSeleccionadoLabel" text="Ningún producto seleccionado" />
-                        <VBox fx:id="productoSeleccionado" maxHeight="-Infinity" minHeight="240.0" prefHeight="320.0" spacing="10.0" visible="false">
+                        <VBox fx:id="productoSeleccionado" maxHeight="-Infinity" minHeight="240.0" prefHeight="320.0" spacing="10.0">
                            <children>
                               <HBox alignment="CENTER_LEFT" spacing="10.0" VBox.vgrow="NEVER">
                                  <children>
@@ -130,6 +130,7 @@
                                     <Button mnemonicParsing="false" onAction="#anadirProductos" text="Añadir" />
                                     <TextField fx:id="anadirProductosQ" maxWidth="-Infinity" minWidth="40.0" prefWidth="40.0" text="1" />
                                     <Label text="producto/s" />
+                                    <Button mnemonicParsing="false" onAction="#quitarProductos" text="Quitar" />
                                  </children>
                               </HBox>
                            </children>

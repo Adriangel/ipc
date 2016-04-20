@@ -23,6 +23,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import pccatalogo.controllers.MainViewController;
 import pccatalogo.data.Data;
@@ -138,6 +139,81 @@ public class Presupuesto {
 	}
     }
     
+    public void delComponente(Componente c){
+        int aux = this.getProductQuantity(c.getProduct());
+        int q;
+        if (aux > 0) {
+            q = aux - c.getQuantity();
+            switch(c.getProduct().getCategory()) {
+                case MOTHERBOARD:
+                    if (q<1)
+                        mobo =null;
+                    else {
+                        mobo.setQuantity(q);
+                    }
+                    break;
+                case CPU:
+                    if (q<1)
+                        cpu =null;
+                    else {
+                        cpu.setQuantity(q);
+                    }
+                    break;
+                case CASE:
+                    if (q<1)
+                        torre =null;
+                    else {
+                        torre.setQuantity(q);
+                    }
+                    break;
+                case RAM:
+                    if (q<1)
+                        ram = null;
+                    else {
+                        ram.setQuantity(q);
+                    }
+                    break;
+                case HDD:
+                case HDD_SSD:
+                    for(aux = 0; aux < hdd.size(); aux++) {
+                        if (hdd.get(aux).equals(c)){
+                            if(q<1)
+                                hdd.remove(aux);
+                            else
+                                hdd.get(aux).setQuantity(q);
+                            break;
+                        }
+                    }
+                    break;
+                case GPU:
+                    if (q<1)
+                        gpu =null;
+                    else {
+                        gpu.setQuantity(q);
+                    }
+                    break;
+                case POWER_SUPPLY:
+                    if (q<1)
+                        psu =null;
+                    else {
+                        psu.setQuantity(q);
+                    }
+                    break;
+                default:
+                    for(aux = 0; aux < optional.size(); aux++) {
+                        if (optional.get(aux).equals(c)){
+                            if(q<1)
+                                optional.remove(aux);
+                            else
+                                optional.get(aux).setQuantity(q);
+                            break;
+                        }
+                    }
+            }
+            modified = true;
+        }
+    }
+    /*
     public boolean addable(Componente c){
         int q;
         switch(c.getProduct().getCategory()) {
@@ -174,7 +250,7 @@ public class Presupuesto {
         }
         return true;
     }
-    
+    */
     public void deleteComponente(Componente c) {
         this.deleteComponente(c, Integer.MAX_VALUE);
     }
@@ -278,7 +354,7 @@ public class Presupuesto {
         }
         double precio =  this.getTotalPrice();
         DecimalFormat df = new DecimalFormat("#.##");
-        vb.getChildren().addAll(new Label(""), new Label("Precio total del presupuesto:  " + df.format(precio) + "€\tIVA:" + df.format(precio*0.21) + "€\tTOTAL:" + df.format(precio*1.21) + "€"));
+        vb.getChildren().addAll(new Label(""), new Label("Precio total del presupuesto:  " + df.format(precio) + "€\tIVA:" + df.format(precio*0.21) + "€\tTOTAL con IVA:" + df.format(precio*1.21) + "€"));
         
         return gp;
     }
@@ -331,14 +407,21 @@ public class Presupuesto {
         return p;
     }
     
-    
+    @XmlElement
     public String getName(){return name;}
+    @XmlElement
     public Componente getMobo(){return mobo;}
+    @XmlElement
     public Componente getCpu(){return cpu;}
+    @XmlElement
     public Componente getTorre(){return torre;}
+    @XmlElement
     public Componente getRam(){return ram;}
+    @XmlElement
     public List<Componente> getHdd(){return hdd;}
+    @XmlElement
     public Componente getGpu(){return gpu;}
+    @XmlElement
     public Componente getPsu(){return psu;}
     public List<Componente> getOptional(){return optional;}
     
@@ -395,17 +478,11 @@ public class Presupuesto {
         }
         return r;
     }
+     
+    public boolean getPred(){return pred;}
+    public void setPred(boolean p){pred = p;}
     
-    public File getProductFile(){
-        String fileStr = "presupuestos";
-        if (pred) {
-            fileStr += "Predeterminados/";
-        }
-        else {
-            fileStr += "Usuario/";
-        }
-        fileStr += this.getName();
-        File f = new File(fileStr);
-        return f;
+    public boolean faltanImprescindibles(){
+        return (hdd.isEmpty() || mobo==null || cpu==null || ram == null || gpu == null || torre == null);
     }
 }
