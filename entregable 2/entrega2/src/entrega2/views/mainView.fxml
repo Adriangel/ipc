@@ -17,7 +17,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="Archivo">
             <items>
-              <MenuItem mnemonicParsing="false" text="Abrir Archivo GPX" />
+              <MenuItem fx:id="abrir" mnemonicParsing="false" onAction="#abrirGPX" text="Abrir Archivo GPX" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Editar">
@@ -27,7 +27,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Acerca de...">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#acercaDe" text="About" />
             </items>
           </Menu>
         </menus>

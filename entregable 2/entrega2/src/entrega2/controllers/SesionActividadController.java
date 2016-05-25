@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Angel Garcia Camara
+ * Adrian Sospedra Martinez
+ * Grupo 2G
  */
 package entrega2.controllers;
 
@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -20,8 +21,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javax.xml.bind.JAXBContext;
@@ -71,6 +74,12 @@ public class SesionActividadController implements Initializable {
     private LineChart lineChart;
     @FXML
     private PieChart pieChart;
+    @FXML
+    private Button cambiarEjesBoton;
+    @FXML
+    private NumberAxis areaEjeX;
+    @FXML
+    private NumberAxis lineEjeX;
     
     /**
      * Initializes the controller class.
@@ -80,6 +89,7 @@ public class SesionActividadController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 	ses = new SimpleObjectProperty();
+	
     }    
     
     public void echo(String s){System.out.println(s);}
@@ -216,20 +226,81 @@ public class SesionActividadController implements Initializable {
 	//creamos las gráficas
 	areaChart.getData().add(s.getHeightPerDistance());
 	areaChart.setCreateSymbols(false);
+	
 	lineChart.getData().addAll(
 		s.getSpeedPerDistance(),
 		s.getHeartratePerDistance(),
 		s.getCadencePerDistance()
 	);
 	lineChart.setCreateSymbols(false);
+	
+	// pieChart de las zonas de FC
+	double[] valoresFC=valoresPieChart();
+	ObservableList<PieChart.Data> zonasFC = FXCollections.observableArrayList(
+		new PieChart.Data("Z1 Recuperación",valoresFC[0]),
+		new PieChart.Data("Z2 Fondo",valoresFC[1]),
+		new PieChart.Data("Z3 Tempo",valoresFC[2]),
+		new PieChart.Data("Z4 Umbral",valoresFC[3]),
+		new PieChart.Data("Z5 Anaeróbico",valoresFC[4])
+	);
+	pieChart.setData(zonasFC);
+		
+	
+    }
+    
+    // Devuelve los valores de zonas de FC para el pieChart
+    private double[] valoresPieChart(){
+	Sesion s = ses.getValue();
+	List<Double> valoresFC = s.getHeartrate(); //lista de FC
+	int tam = valoresFC.size();
+	double [] valoresFCporZonas = {0.0,0.0,0.0,0.0,0.0};
+	int maxFC = s.getMaxHeartrate();
 
+	for(int i=0; i<tam; i++){
+	    if( valoresFC.get(i)<=0.6*maxFC ){ // Z1 recuperacion, <60% de la FC máxima
+		valoresFCporZonas[0]+=100/(double)tam;
+	    }else if( valoresFC.get(i)>0.6*maxFC && valoresFC.get(i)<=0.7*maxFC ){ // Z2 fondo, 60%-70%
+		valoresFCporZonas[1]+=100/(double)tam;
+	    }else if( valoresFC.get(i)>0.7*maxFC && valoresFC.get(i)<=0.8*maxFC ){ // Z3 tempo, 70%-80%
+		valoresFCporZonas[2]+=100/(double)tam;
+	    }else if( valoresFC.get(i)>0.8*maxFC && valoresFC.get(i)<=0.9*maxFC ){ // Z4 umbral, 80%-90%"
+		valoresFCporZonas[3]+=100/(double)tam;
+	    }else if( valoresFC.get(i)>0.9*maxFC){ // Z5 anaerobico, >90%-100%"
+		valoresFCporZonas[4]+=100/(double)tam;
+	    }
+	}
+	
+	return(valoresFCporZonas);
     }
 
-    @FXML
-    private void cambiarEdad(ActionEvent event) {
-    }
 
     @FXML
     private void cambiarEjes(ActionEvent event) {
+	Sesion s = ses.getValue();
+	areaChart.getData().clear();
+	lineChart.getData().clear();
+	if(cambiarEjesBoton.getText().equals("Cambiar eje horizontal a Tiempo")){
+	    cambiarEjesBoton.setText("Cambiar eje horizontal a Distancia");
+	    areaEjeX.setLabel("Tiempo (seg)");
+	    lineEjeX.setLabel("Tiempo (seg)");
+	    areaChart.getData().add(s.getHeightPerTime());
+	    lineChart.getData().addAll(
+		    s.getSpeedPerTime(),
+		    s.getHeartratePerTime(),
+		    s.getCadencePerTime()
+	    );
+	    // falta que de verdad cambie el grafico de acuerdo al nuevo eje
+	}else{
+	    cambiarEjesBoton.setText("Cambiar eje horizontal a Tiempo");
+	    areaEjeX.setLabel("Distancia (m)");
+	    lineEjeX.setLabel("Distancia (m)");
+	    // falta que de verdad cambie el grafico de acuerdo al nuevo eje
+	    areaChart.getData().add(s.getHeightPerDistance());
+	    lineChart.getData().addAll(
+		    s.getSpeedPerDistance(),
+		    s.getHeartratePerDistance(),
+		    s.getCadencePerDistance()
+	    );
+	}
     }
 }
