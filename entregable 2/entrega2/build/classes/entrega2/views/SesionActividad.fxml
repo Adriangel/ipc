@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="entrega2.controllers.SesionActividadController">
+   <children>
+      <GridPane fx:id="main" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" visible="false">
+        <columnConstraints>
+          <ColumnConstraints halignment="LEFT" hgrow="NEVER" />
+          <ColumnConstraints halignment="LEFT" hgrow="NEVER" />
+            <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="26.0" valignment="TOP" vgrow="NEVER" />
+          <RowConstraints minHeight="26.0" valignment="TOP" vgrow="NEVER" />
+          <RowConstraints minHeight="26.0" valignment="TOP" vgrow="NEVER" />
+            <RowConstraints minHeight="26.0" valignment="TOP" vgrow="NEVER" />
+            <RowConstraints minHeight="26.0" valignment="TOP" vgrow="NEVER" />
+            <RowConstraints minHeight="26.0" valignment="TOP" vgrow="NEVER" />
+            <RowConstraints minHeight="26.0" valignment="TOP" vgrow="NEVER" />
+            <RowConstraints minHeight="26.0" valignment="TOP" vgrow="NEVER" />
+            <RowConstraints minHeight="26.0" valignment="TOP" vgrow="NEVER" />
+            <RowConstraints minHeight="26.0" valignment="TOP" vgrow="NEVER" />
+            <RowConstraints minHeight="10.0" valignment="TOP" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" valignment="TOP" vgrow="SOMETIMES" />
+            <RowConstraints vgrow="ALWAYS" />
+        </rowConstraints>
+         <children>
+            <Label text="Fecha" />
+            <Label text="Hora" GridPane.rowIndex="1" />
+            <Label text="Duración" GridPane.rowIndex="2" />
+            <Label text="Tiempo en movimiento" GridPane.rowIndex="3" />
+            <Label text="Distancia recorrida" GridPane.rowIndex="4" />
+            <Label text="Desnivel acumulado" GridPane.rowIndex="5" />
+            <Label text="Velocidad media / máx" GridPane.rowIndex="6" />
+            <Label text="Frecuencia cardiaca mín / media / máx" GridPane.rowIndex="7" />
+            <Label text="Cadencia de pedaleo media / máx" GridPane.rowIndex="8" />
+            <Label fx:id="fecha" text="Label" GridPane.columnIndex="1">
+               <GridPane.margin>
+                  <Insets left="4.0" />
+               </GridPane.margin></Label>
+            <Label fx:id="hora" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets left="4.0" />
+               </GridPane.margin></Label>
+            <Label fx:id="duracion" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <GridPane.margin>
+                  <Insets left="4.0" />
+               </GridPane.margin></Label>
+            <Label fx:id="tiempoMovimiento" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <GridPane.margin>
+                  <Insets left="4.0" />
+               </GridPane.margin></Label>
+            <Label fx:id="distanciaRecorrida" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <GridPane.margin>
+                  <Insets left="4.0" />
+               </GridPane.margin></Label>
+            <Label fx:id="desnivel" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets left="4.0" />
+               </GridPane.margin></Label>
+            <Label fx:id="velocidades" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <GridPane.margin>
+                  <Insets left="4.0" />
+               </GridPane.margin></Label>
+            <Label fx:id="frecuenciasCardiacas" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <GridPane.margin>
+                  <Insets left="4.0" />
+               </GridPane.margin></Label>
+            <Label fx:id="cadencias" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="8">
+               <GridPane.margin>
+                  <Insets left="4.0" />
+               </GridPane.margin></Label>
+            <AreaChart fx:id="areaChart" layoutX="-121.0" layoutY="-54.0" GridPane.columnSpan="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="10" GridPane.vgrow="ALWAYS">
+              <xAxis>
+                <NumberAxis fx:id="areaEjeX" label="Distancia (m)" side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </AreaChart>
+            <LineChart fx:id="lineChart" GridPane.columnSpan="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="11" GridPane.vgrow="ALWAYS">
+              <xAxis>
+                <NumberAxis fx:id="lineEjeX" label="Distancia (m)" side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
+            <PieChart fx:id="pieChart" prefHeight="300.0" prefWidth="300.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowSpan="9" GridPane.vgrow="ALWAYS" />
+            <Button fx:id="cambiarEjesBoton" mnemonicParsing="false" onAction="#cambiarEjes" text="Cambiar eje horizontal a Tiempo" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </GridPane>
+      <GridPane fx:id="load" alignment="CENTER" prefHeight="702.0" prefWidth="600.0" StackPane.alignment="CENTER">
+         <columnConstraints>
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="200.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label fx:id="loadingLabel" text="Cargando...">
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+            </Label>
+         </children>
+      </GridPane>
+   </children>
+</StackPane>

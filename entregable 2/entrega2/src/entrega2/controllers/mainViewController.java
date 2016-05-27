@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Angel Garcia Camara
+ * Adrian Sospedra Martinez
+ * Grupo 2G
  */
 package entrega2.controllers;
 
@@ -13,38 +13,31 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import jgpx.model.analysis.TrackData;
-import jgpx.model.gpx.Track;
-import jgpx.model.jaxb.GpxType;
-import jgpx.model.jaxb.TrackPointExtensionT;
 
-/**
- * FXML Controller class
- *
- * @author angel
- */
 public class mainViewController implements Initializable {
-
-    
     List<String> gpxFiles;
-    @FXML
-    private Button b0;
+    int lastIndex = -1;
     @FXML
     private MenuItem abrir;
+    @FXML
+    private VBox vbox;
+    @FXML
 
     /**
      * Initializes the controller class.
@@ -52,23 +45,19 @@ public class mainViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 	gpxFiles = new ArrayList<>();
-	gpxFiles.add("C:\\Users\\angel\\Desktop\\Entrega 2 ipc\\Tracks\\20160113-120434-VirtualRide.gpx");
+	//gpxFiles.add("C:\\Users\\angel\\Desktop\\Entrega 2 ipc\\Tracks\\20160113-120434-VirtualRide.gpx");
     }
 
-    
-    
-    @FXML
-    private void ver(ActionEvent event) {
+    private void ver(int index) {
 	Parent root;
-	Button origin = (Button) event.getSource();
-	String s = gpxFiles.get(Integer.valueOf(origin.getId().substring(1)));
+	String s = gpxFiles.get(index);
 	try {
 	    FXMLLoader loader = new FXMLLoader(
 		Entrega2.class.getResource("views/SesionActividad.fxml")
 	      );
 	    root = loader.load();
 	    Stage stage = new Stage();
-	    stage.setTitle("SesionActividad.fxml");//Aquí irá el nombre del archivo
+	    stage.setTitle(new File(s).getName());//Aquí irá el nombre del archivo
 	    stage.setScene(new Scene(root));
 	    stage.setMinHeight(700);
 	    stage.setMinWidth(840);
@@ -90,31 +79,48 @@ public class mainViewController implements Initializable {
     }
 
     @FXML
-    private void abrirGPX(ActionEvent event) throws JAXBException {
+    private void abrirGPX(ActionEvent event) throws JAXBException  {
+	lastIndex++;
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Archivos GPX", "*.gpx"),
                 new FileChooser.ExtensionFilter("Todos los archivos", "*.*")
         );
-        fileChooser.setInitialDirectory(new File("C:\\Users\\angel\\Desktop\\Entrega 2 ipc\\Tracks\\"));
-        File file = fileChooser.showOpenDialog(); // AQUI ADRIAN
+        //fileChooser.setInitialDirectory(new File("C:\\Users\\angel\\Desktop\\Entrega 2 ipc\\Tracks\\"));
+        File file = fileChooser.showOpenDialog(vbox.getScene().getWindow());
         if (file == null) {
             return;
         }
-        label.setText("Loading " + file.getName());
-        JAXBContext jaxbContext = JAXBContext.newInstance(GpxType.class, TrackPointExtensionT.class);
-        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-        JAXBElement<Object> root = (JAXBElement<Object>) unmarshaller.unmarshal(file);
-        GpxType gpx = (GpxType) root.getValue();
-
-        if (gpx != null) {
-            trackData = new TrackData(new Track(gpx.getTrk().get(0)));
-            showTrackInfo(trackData);
-            label.setText("GPX successfully loaded");
-        } else {
-            label.setText("Error loading GPX from " + file.getName());
-        }
+        //label.setText("Loading " + file.getName());
+        
+	gpxFiles.add(file.getAbsolutePath());
+	
+	HBox hbox = new HBox();
+	hbox.getChildren().add(new Label(file.getName()));
+	hbox.setSpacing(16);
+	hbox.setAlignment(Pos.CENTER);
+	Button verBoton = new Button("Ver");
+	
+	Button quitarBoton = new Button("Quitar");
+	verBoton.setId("b" + String.valueOf(lastIndex));
+	hbox.getChildren().addAll(verBoton, quitarBoton);
+	vbox.getChildren().add(hbox);
+	verBoton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+	    @Override
+	    public void handle(ActionEvent actionEvent) {
+		ver(Integer.valueOf(verBoton.getId().substring(1)));
+	    }
+	});
+	
+	quitarBoton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+	    @Override
+	    public void handle(ActionEvent actionEvent) {
+		gpxFiles.remove(lastIndex);
+		vbox.getChildren().remove(lastIndex);
+		lastIndex--;
+	    }
+	});
+	
     }
 
-    
 }

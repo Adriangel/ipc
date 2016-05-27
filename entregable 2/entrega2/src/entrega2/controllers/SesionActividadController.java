@@ -36,11 +36,6 @@ import jgpx.model.gpx.Track;
 import jgpx.model.jaxb.GpxType;
 import jgpx.model.jaxb.TrackPointExtensionT;
 
-/**
- * FXML Controller class
- *
- * @author angel
- */
 public class SesionActividadController implements Initializable {
     public SimpleObjectProperty<Sesion> ses;
     

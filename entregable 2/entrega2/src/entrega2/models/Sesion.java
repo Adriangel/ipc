@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Angel Garcia Camara
+ * Adrian Sospedra Martinez
+ * Grupo 2G
  */
 package entrega2.models;
 
@@ -11,10 +11,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import javafx.scene.chart.XYChart;
 
-/**
- *
- * @author angel
- */
 public class Sesion {
     private LocalDateTime start;
     private Duration duration, movingTime;
